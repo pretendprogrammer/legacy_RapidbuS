@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "Beth Rivkah": {
+    	".read": "'Some ID' === auth.uid || 'Some ID' === auth.uid",
+    	".write": "'Some ID' === auth.uid",
+      "$RouteNames": {
+        "Log Data": {
+          ".write": "'Some ID' === auth.uid"
+        }
+      }
+    }
+  }
+}
