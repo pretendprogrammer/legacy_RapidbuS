@@ -23,11 +23,11 @@ The Rules configuration on the Firebase Console
 
 Districts and routes must be manually added to the firebase structure, as follows:
 
-generated_name_of_database
-INSERT_DISRTICT_NAME
-INSERT_ROUTE_NAME_1
-INSERT_ROUTE_NAME_2
-...
+    generated_name_of_database
+        INSERT_DISRTICT_NAME
+            INSERT_ROUTE_NAME_1
+            INSERT_ROUTE_NAME_2
+            ...
 
 ### SETUP
 
