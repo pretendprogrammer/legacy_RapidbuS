@@ -14,6 +14,8 @@ from datetime import datetime
 import csv
 import traceback
 from decouple import config
+from dotenv import load_dotenv
+load_dotenv()
  
 cols = []
 for i in range(2):
@@ -58,10 +60,10 @@ def openOrCreateSettingFile():
             file.write(encryptedData)
 
 config = {
-    'apiKey': config('apikey',default=''),
-    'authDomain': config('authDomain',default=''),
-    'databaseURL': config('databaseURL',default=''),
-    'storageBucket': config('storageBucket',default='')
+    'apiKey': os.environ['apikey'],
+    'authDomain': os.environ['authDomain'],
+    'databaseURL': os.environ['databaseURL'],
+    'storageBucket': os.environ['storageBucket']
 }
 
 firebase = Firebase(config)
@@ -153,13 +155,13 @@ def populate(frame):
 
     for x in range(80): #Location1
         checkVars[0][x] = StringVar()
-        locationChoice1 = OptionMenu(frame,checkVars[0][x],*locationList)
+        locationChoice1 = OptionMenu(frame,checkVars[0][x],'',*locationList)
         checkVars[0][x].set(None)
         locationChoice1.grid(row=3,column=x,padx=2,sticky=EW)
 
     for x in range(80): #Location2
         checkVars[1][x] = StringVar()
-        locationChoice1 = OptionMenu(frame,checkVars[1][x],*locationList)
+        locationChoice1 = OptionMenu(frame,checkVars[1][x],'',*locationList)
         checkVars[1][x].set(None)
         locationChoice1.grid(row=4,column=x,padx=2,sticky=EW)
 
@@ -193,7 +195,7 @@ def populate(frame):
 
     for x in range(80): #CheckDay
         checkVars[6][x] = StringVar()
-        checkDay = OptionMenu(frame,checkVars[6][x],*dayList)
+        checkDay = OptionMenu(frame,checkVars[6][x],'',*dayList)
         checkVars[6][x].set(None)
         checkDay.grid(row=11,column=x,sticky='ew',padx=5)
 
@@ -532,9 +534,9 @@ def checkLogin():
         user = auth.sign_in_with_email_and_password(settingsData['Username'],settingsData['Password'])
         firebasePull()
     except BaseException:
-        print('Exception message starts here.')
+        print('***Exception message starts here.***')
         traceback.print_exc()
-        print('Exception message stops here.')
+        print('***Exception message stops here.***')
         messagebox.showerror('Connection to database failed!','Please go to settings and review your current configuration.')
 
 def locationsWindow():
@@ -688,7 +690,7 @@ def locationsWindow():
     addressLabelEntry = Entry(locationsTop,textvariable=labelVar,width=50,font=('Helvetica','11'))
     saveLocation = Button(locationsTop,text='Save New Location',command=saveLocation,padx=5)
     editLocation = Button(locationsTop,text='Save Changes',command=editLocation,padx=5)
-    orderDefinition = OptionMenu(locationsTop,orderVar,*availableOrderPositions)
+    orderDefinition = OptionMenu(locationsTop,orderVar,'',*availableOrderPositions)
     saveToFirebase = Button(locationsTop,text='Save and Close',command=saveAndClose,font=('Helvetica','11'))
 
     locationCanvas = Canvas(locationsTop,width=(width/4),height=(height/2),bd=2,bg='#D3D3D3')

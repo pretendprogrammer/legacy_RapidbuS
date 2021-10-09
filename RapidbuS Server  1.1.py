@@ -13,6 +13,8 @@ from datetime import datetime
 import csv
 import traceback
 from decouple import config
+from dotenv import load_dotenv
+load_dotenv()
 
 cols = []
 for i in range(2):
@@ -57,10 +59,10 @@ def openOrCreateSettingFile():
             file.write(encryptedData)
 
 config = {
-    'apiKey': config('apikey',default=''),
-    'authDomain': config('authDomain',default=''),
-    'databaseURL': config('databaseURL',default=''),
-    'storageBucket': config('storageBucket',default='')
+    'apiKey': os.environ['apikey'],
+    'authDomain': os.environ['authDomain'],
+    'databaseURL': os.environ['databaseURL'],
+    'storageBucket': os.environ['storageBucket']
 }
 
 firebase = Firebase(config)
@@ -74,10 +76,10 @@ def firebasePull():
         for list in rawLocationList:
             locationList.append([list[0],list[1]])
         for x in range(80): #Location1
-            locationChoice1 = tk.OptionMenu(frame,checkVars[0][x],*locationList)
+            locationChoice1 = tk.OptionMenu(frame,checkVars[0][x],'',*locationList)
             locationChoice1.grid(row=3,column=x,padx=2,sticky='EW')
         for x in range(80): #Location2
-            locationChoice2 = tk.OptionMenu(frame,checkVars[1][x],*locationList)
+            locationChoice2 = tk.OptionMenu(frame,checkVars[1][x],'',*locationList)
             locationChoice2.grid(row=4,column=x,padx=2,sticky='EW')
     except BaseException:
         print('Exception message starts here.')
@@ -138,13 +140,13 @@ def populate(frame):
 
     for x in range(80): #Location1
         checkVars[0][x] = tk.StringVar()
-        locationChoice1 = tk.OptionMenu(frame,checkVars[0][x],*locationList)
+        locationChoice1 = tk.OptionMenu(frame,checkVars[0][x],'',*locationList)
         checkVars[0][x].set(None)
         locationChoice1.grid(row=3,column=x,padx=2,sticky='EW')
 
     for x in range(80): #Location2
         checkVars[1][x] = tk.StringVar()
-        locationChoice1 = tk.OptionMenu(frame,checkVars[1][x],*locationList)
+        locationChoice1 = tk.OptionMenu(frame,checkVars[1][x],'',*locationList)
         checkVars[1][x].set(None)
         locationChoice1.grid(row=4,column=x,padx=2,sticky='EW')
 
@@ -178,7 +180,7 @@ def populate(frame):
 
     for x in range(80): #CheckDay
         checkVars[6][x] = tk.StringVar()
-        checkDay = tk.OptionMenu(frame,checkVars[6][x],*dayList)
+        checkDay = tk.OptionMenu(frame,checkVars[6][x],'',*dayList)
         checkVars[6][x].set(None)
         checkDay.grid(row=11,column=x,sticky='ew',padx=5)
 
@@ -333,7 +335,7 @@ def settingsWindow():
     usernameEntry = tk.Entry(top)
     passwordEntry = tk.Entry(top,show='*')
     districtEntry = tk.Entry(top)
-    routeEntry = tk.OptionMenu(top,routeVar,*routes)
+    routeEntry = tk.OptionMenu(top,routeVar,'',*routes)
 
     save = tk.Button(top,text='Save and close',command=getEntries)
     usernameLabel.grid(row=0)
@@ -494,7 +496,7 @@ def locationsWindow():
         availableOrderPositions.clear()
         for x in range(len(locationList)+1):
             availableOrderPositions.append(x)
-        orderDefinition = tk.OptionMenu(locationsTop,orderVar,*availableOrderPositions)
+        orderDefinition = tk.OptionMenu(locationsTop,orderVar,'',*availableOrderPositions)
         orderDefinition.grid(row=1,column=1,sticky='NSEW',padx=5,pady=3)
         orderVar.set(len(availableOrderPositions)-1)
 
@@ -519,7 +521,7 @@ def locationsWindow():
                         location[0] = int(location[0]) -1
         buildLocationList(locationFrame)
         fillPositionList()
-        orderDefinition = tk.OptionMenu(locationsTop,orderVar,*availableOrderPositions)
+        orderDefinition = tk.OptionMenu(locationsTop,orderVar,'',*availableOrderPositions)
         orderDefinition.grid(row=1,column=1,sticky='NSEW',padx=5,pady=3)
         orderVar.set(availableOrderPositions[len(availableOrderPositions)-1])
 
@@ -541,7 +543,7 @@ def locationsWindow():
             locationList.insert(value[0],value)
             buildLocationList(locationFrame)
             fillPositionList()
-            orderDefinition = tk.OptionMenu(locationsTop,orderVar,*availableOrderPositions)
+            orderDefinition = tk.OptionMenu(locationsTop,orderVar,'',*availableOrderPositions)
             orderDefinition.grid(row=1,column=1,sticky='NSEW',padx=5,pady=3)
             orderVar.set(availableOrderPositions[len(availableOrderPositions)-1])
             addressVar.set('Enter Address Here')
@@ -560,7 +562,7 @@ def locationsWindow():
                 locationList[value[0]] = value
                 buildLocationList(locationFrame)
                 fillPositionList()
-                orderDefinition = tk.OptionMenu(locationsTop,orderVar,*availableOrderPositions)
+                orderDefinition = tk.OptionMenu(locationsTop,orderVar,'',*availableOrderPositions)
                 orderDefinition.grid(row=1,column=1,sticky='NSEW',padx=5,pady=3)
                 orderVar.set(availableOrderPositions[len(availableOrderPositions)-1])
                 addressVar.set('Enter Address Here')
@@ -608,7 +610,7 @@ def locationsWindow():
     addressLabelEntry = tk.Entry(locationsTop,textvariable=labelVar,width=50,font=('Helvetica','11'))
     saveLocation = tk.Button(locationsTop,text='Save New Location',command=saveLocation,padx=5)
     editLocation = tk.Button(locationsTop,text='Save Changes',command=editLocation,padx=5)
-    orderDefinition = tk.OptionMenu(locationsTop,orderVar,*availableOrderPositions)
+    orderDefinition = tk.OptionMenu(locationsTop,orderVar,'',*availableOrderPositions)
     saveToFirebase = tk.Button(locationsTop,text='Save and Close',command=saveAndClose,font=('Helvetica','11'))
 
     locationCanvas = tk.Canvas(locationsTop,width=(width/4),height=(height/2),bd=2,bg='#D3D3D3')

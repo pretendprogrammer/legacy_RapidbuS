@@ -11,6 +11,8 @@ from cryptography.fernet import Fernet
 from functools import partial
 from datetime import datetime
 from decouple import config
+from dotenv import load_dotenv
+load_dotenv()
  
 cols = []
 for i in range(11):
@@ -41,11 +43,11 @@ def openOrCreateSettingFile():
         with open('RBConfig','wb') as file:
             file.write(encryptedData)
 
-config = { #Firebase Configuration Information
-    'apiKey': config('apikey',default=''),
-    'authDomain': config('authDomain',default=''),
-    'databaseURL': config('databaseURL',default=''),
-    'storageBucket': config('storageBucket',default='')
+config = {
+    'apiKey': os.environ['apikey'],
+    'authDomain': os.environ['authDomain'],
+    'databaseURL': os.environ['databaseURL'],
+    'storageBucket': os.environ['storageBucket']
 }
 
 firebase = Firebase(config)
